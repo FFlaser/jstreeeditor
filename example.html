@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>jsTreeEditor Example</title>
+    <script src="js/jquery-3.6.0.min.js"></script>
+    <script src="js/dinamp.treeeditor.js"></script>
+    <link rel="stylesheet" href="css/treeeditor.css" />
+    <style>
+      html, body {margin: 0; padding: 0;}
+      h1 {margin:8px;}
+      body > div {margin:8px; overflow:hidden;}
+    </style>
+  </head>
+  <body>
+    <div>
+      <h1>Simple editable tree</h1>
+      <div class="firstTree"></div>
+
+      <h1>Uneditable tree, with radio btns, and an oncheck event</h1>
+      <p class="sncdOutput"></p>
+      <div class="scndTree"></div>
+
+      <h1>Editable tree, with checkboxes, and an onchange event</h1>
+      <p class="thirdOutput"></p>
+      <div class="thirdTree"></div>
+    </div>
+    <script type="text/javascript">
+      var treeOne, treeScnd, treeThird;
+      var data = [
+          {
+            title: "Warehouse",
+            children: [
+              {
+                title:"Shelfs A",
+                children: [
+                  {title:"Shelf A1"},
+                  {title:"Shelf A2"},
+                  {title:"Shelf A3"},
+                  {title:"Shelf A4"}
+                ]
+              },
+              {
+                title:"Shelfs B",
+                children: [
+                  {title:"Shelf B1"},
+                  {title:"Shelf B2"}
+                ]
+              },
+              {title:"Ground"}
+            ]
+          }
+      ];
+
+      $(function(){
+        treeOne = new DinampTreeEditor('.firstTree').setData(data);
+
+        treeScnd = new DinampTreeEditor('.scndTree').setData(data).set({
+          extended: false,
+          radios: true,
+          editable:false,
+          oncheck: function(state, text, path) {
+            $(".sncdOutput").text(path);
+          }
+        });
+
+        treeThird = new DinampTreeEditor('.thirdTree').setData(data).set({
+          checkboxes: true,
+          onchange: function(tree) {
+            $(".thirdOutput").text(JSON.stringify(tree.getData()));
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
